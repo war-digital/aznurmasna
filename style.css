@@ -2087,6 +2087,13 @@ body {
     .lightbox-content-wrapper {
         max-width: 95%;
     }
+
+    .slider-container {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background: rgba(30, 20, 15, 0.85) !important; /* Solid translucent dark brown to eliminate GPU lag on Android */
+        border: 1px solid rgba(212, 175, 55, 0.35) !important; /* Gold border instead of white */
+    }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
