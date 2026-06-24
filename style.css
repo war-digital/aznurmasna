@@ -539,6 +539,18 @@ body {
     display: block;
     margin-bottom: 0.5rem;
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9); /* Strong dark shadow for legibility */
+    
+    /* Elegant scale-up zoom-in reveal */
+    opacity: 0;
+    transform: scale(0.85);
+    transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: 0.1s;
+}
+
+.section-title-container.revealed .section-subtitle {
+    opacity: 1;
+    transform: scale(1);
 }
 
 .section-title {
@@ -550,15 +562,18 @@ body {
     padding-bottom: 15px;
     font-weight: 700;
     text-shadow: 0 3px 10px rgba(0, 0, 0, 0.9); /* Strong dark shadow for legibility */
-    /* Carving swipe reveal */
-    clip-path: inset(0 100% 0 0);
-    transition: clip-path 2s cubic-bezier(0.4, 0, 0.2, 1), 
-                opacity 1s cubic-bezier(0.16, 1, 0.3, 1), 
-                transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    /* Elegant scale-up zoom-in reveal instead of clip-path swipe */
+    opacity: 0;
+    transform: scale(0.85);
+    transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: 0.3s;
 }
 
 .section-title-container.revealed .section-title {
-    clip-path: inset(0 0 0 0);
+    opacity: 1;
+    transform: scale(1);
 }
 
 .section-title::after {
@@ -578,6 +593,18 @@ body {
     max-width: 600px;
     margin: 1.5rem auto 0;
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.95); /* Strong dark shadow for legibility */
+    
+    /* Elegant scale-up zoom-in reveal */
+    opacity: 0;
+    transform: scale(0.85);
+    transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: 0.5s;
+}
+
+.section-title-container.revealed .section-desc {
+    opacity: 1;
+    transform: scale(1);
 }
 
 /* ================= HERO SECTION ================= */
@@ -605,6 +632,19 @@ body {
     margin-top: 1rem;
 }
 
+#hero .hero-top-group.scroll-reveal {
+    /* High specificity to override global .scroll-reveal and scale properties */
+    opacity: 0;
+    transform: scale(1) translateY(calc(50vh - 10rem));
+    transition: opacity 3.8s cubic-bezier(0.22, 1, 0.36, 1), 
+                transform 3.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#hero .hero-top-group.scroll-reveal.revealed {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
 .hero-bottom-group {
     width: 100%;
     display: flex;
@@ -622,6 +662,19 @@ body {
     margin-top: auto; /* Push down to the very bottom */
 }
 
+#hero .hero-bottom-area.scroll-reveal {
+    /* High specificity to override global .scroll-reveal and scale properties */
+    opacity: 0;
+    transform: scale(1) translateY(calc(-50vh + 14rem));
+    transition: opacity 3.8s cubic-bezier(0.22, 1, 0.36, 1), 
+                transform 3.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#hero .hero-bottom-area.scroll-reveal.revealed {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
 .greeting-accent {
     font-family: var(--font-serif);
     font-size: 0.72rem; /* Mini */
@@ -631,15 +684,6 @@ body {
     letter-spacing: 3.5px; /* Elegant wide spacing */
     text-transform: uppercase;
     text-align: center;
-    /* Carving swipe reveal */
-    clip-path: inset(0 100% 0 0);
-    transition: clip-path 2s cubic-bezier(0.4, 0, 0.2, 1), 
-                opacity 1s cubic-bezier(0.16, 1, 0.3, 1), 
-                transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.greeting-accent.revealed {
-    clip-path: inset(0 0% 0 0);
 }
 
 .couple-title {
@@ -651,15 +695,6 @@ body {
     text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9), 0 2px 5px rgba(0, 0, 0, 0.95); /* Stronger shadow */
     line-height: 1.2;
     white-space: nowrap; /* Force exactly 1 line */
-    /* Carving swipe reveal */
-    clip-path: inset(0 100% 0 0);
-    transition: clip-path 2.5s cubic-bezier(0.4, 0, 0.2, 1), 
-                opacity 1s cubic-bezier(0.16, 1, 0.3, 1), 
-                transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.couple-title.revealed {
-    clip-path: inset(0 0% 0 0);
 }
 
 .wedding-date-text {
@@ -671,15 +706,6 @@ body {
     text-shadow: 0 2px 8px rgba(0,0,0,0.9);
     font-weight: 600;
     margin-bottom: 1.5rem; /* Clustered with countdown */
-    /* Carving swipe reveal */
-    clip-path: inset(0 100% 0 0);
-    transition: clip-path 2s cubic-bezier(0.4, 0, 0.2, 1), 
-                opacity 1s cubic-bezier(0.16, 1, 0.3, 1), 
-                transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.wedding-date-text.revealed {
-    clip-path: inset(0 0% 0 0);
 }
 
 /* Countdown Timer with Rolling Digits */
@@ -823,9 +849,9 @@ body {
     /* Entrance animation: scale up slowly from small to large */
     opacity: 0;
     transform: scale(0.5); /* Start small */
-    transition: opacity 2.5s cubic-bezier(0.16, 1, 0.3, 1), 
-                transform 2.5s cubic-bezier(0.16, 1, 0.3, 1); /* Ultra-slow 2.5s scale-up */
-    transition-delay: 1.0s; /* Stage 2: Wait 1.0s for card background to appear */
+    transition: opacity 1.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: 0.3s; /* Stage 1: Starts very early, right after card begins to appear */
 }
 
 .couple-card.revealed .couple-img-wrapper {
@@ -860,8 +886,8 @@ body {
     z-index: 2; /* Sit behind the text/button but on top of the card background */
     pointer-events: none;
     /* Ultra-smooth, slow-decelerating custom curve for luxurious feel */
-    transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1), 
-                opacity 2.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1);
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
     opacity: 0; /* Animate in when card is revealed */
 }
@@ -873,7 +899,7 @@ body {
     height: auto;
     /* Spiral unfolding start: scaled down, rotated, and shifted */
     transform: scale(0.7) rotate(12deg) translate(-15px, 15px);
-    transition-delay: 3.5s; /* Stage 4: Fade in last, after the text has settled! */
+    transition-delay: 2.2s; /* Stage 3: Fade in last, after the text has started showing */
 }
 
 .card-ornament.ornament-bottom-right {
@@ -883,7 +909,7 @@ body {
     height: auto;
     /* Spiral unfolding start: scaled down, rotated, and shifted */
     transform: scale(0.7) rotate(-12deg) translate(15px, 15px);
-    transition-delay: 3.5s; /* Stage 4: Fade in last, after the text has settled! */
+    transition-delay: 2.2s; /* Stage 3: Fade in last, after the text has started showing */
 }
 
 .couple-card.revealed .card-ornament {
@@ -937,9 +963,9 @@ body {
     margin-top: 1.5rem;
     opacity: 0;
     transform: translateY(40px); /* Entrance animation: slide up from bottom of card */
-    transition: opacity 2.5s cubic-bezier(0.25, 1, 0.5, 1), 
-                transform 2.5s cubic-bezier(0.25, 1, 0.5, 1); /* Ultra-slow 2.5s slide */
-    transition-delay: 2.5s; /* Stage 3: Wait 2.5s for photo to slide down and settle */
+    transition: opacity 1.8s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 1.8s cubic-bezier(0.25, 1, 0.5, 1); /* Elegant 1.8s slide */
+    transition-delay: 1.2s; /* Stage 2: Wait 1.2s for photo to begin revealing */
     position: relative;
     z-index: 10; /* Ensure text and buttons sit on top of the corner ornaments */
 }
@@ -1004,6 +1030,7 @@ body {
     margin-right: auto;
 }
 
+/* Quote Box Texts with cascading scale-up zoom-in reveal */
 .bugis-quote {
     font-family: var(--font-serif);
     font-size: 1.3rem;
@@ -1011,12 +1038,36 @@ body {
     color: var(--color-gold-light); /* Cream-gold instead of burgundy for readability on dark card */
     margin-bottom: 1rem;
     font-weight: 600;
+    
+    /* Elegant scale-up zoom-in reveal */
+    opacity: 0;
+    transform: scale(0.85);
+    transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: 0.2s;
+}
+
+.bugis-quote-box.revealed .bugis-quote {
+    opacity: 1;
+    transform: scale(1);
 }
 
 .bugis-quote-translation {
     font-size: 0.9rem;
     color: var(--color-text-muted);
     line-height: 1.6;
+    
+    /* Elegant scale-up zoom-in reveal */
+    opacity: 0;
+    transform: scale(0.85);
+    transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: 0.4s;
+}
+
+.bugis-quote-box.revealed .bugis-quote-translation {
+    opacity: 1;
+    transform: scale(1);
 }
 
 .quote-signature {
@@ -1027,7 +1078,70 @@ body {
     display: block;
     margin-top: 1rem;
     font-weight: 600;
+    
+    /* Elegant scale-up zoom-in reveal */
+    opacity: 0;
+    transform: scale(0.85);
+    transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: 0.6s;
 }
+
+.bugis-quote-box.revealed .quote-signature {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Cascaded scale-up text reveals for cards and forms from Bugis quote onwards */
+.event-card .event-icon,
+.event-card .event-title,
+.event-card .event-details-list,
+.event-card .event-actions,
+.gift-card .bank-logo-wrapper,
+.gift-card .gift-details,
+.rsvp-form-container .form-title,
+.rsvp-form-container .form-group,
+.rsvp-form-container button,
+.guestbook-list-container .form-title,
+.guestbook-list-container .comments-scroll-area {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1), 
+                transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.event-card.revealed .event-icon,
+.event-card.revealed .event-title,
+.event-card.revealed .event-details-list,
+.event-card.revealed .event-actions,
+.gift-card.revealed .bank-logo-wrapper,
+.gift-card.revealed .gift-details,
+.rsvp-form-container.revealed .form-title,
+.rsvp-form-container.revealed .form-group,
+.rsvp-form-container.revealed button,
+.guestbook-list-container.revealed .form-title,
+.guestbook-list-container.revealed .comments-scroll-area {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Specific delays for an elegant blooming cascade inside elements */
+.event-card .event-icon { transition-delay: 0.1s; }
+.event-card .event-title { transition-delay: 0.3s; }
+.event-card .event-details-list { transition-delay: 0.5s; }
+.event-card .event-actions { transition-delay: 0.7s; }
+
+.gift-card .bank-logo-wrapper { transition-delay: 0.1s; }
+.gift-card .gift-details { transition-delay: 0.3s; }
+
+.rsvp-form-container .form-title { transition-delay: 0.1s; }
+.rsvp-form-container .form-group:nth-of-type(1) { transition-delay: 0.3s; }
+.rsvp-form-container .form-group:nth-of-type(2) { transition-delay: 0.4s; }
+.rsvp-form-container .form-group:nth-of-type(3) { transition-delay: 0.5s; }
+.rsvp-form-container button { transition-delay: 0.6s; }
+
+.guestbook-list-container .form-title { transition-delay: 0.1s; }
+.guestbook-list-container .comments-scroll-area { transition-delay: 0.3s; }
 
 /* ================= ACARA SECTION ================= */
 .acara-section {
@@ -2059,7 +2173,7 @@ body {
 .cover2-header {
     text-align: center;
     z-index: 10;
-    animation: fadeInDown 1.5s ease;
+    animation: slideFromCenterToTop 3.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .the-wedding-of {
@@ -2089,7 +2203,7 @@ body {
     z-index: 10;
     width: 100%;
     max-width: 320px;
-    animation: fadeInUp 1.5s ease;
+    animation: slideFromCenterToBottom 3.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .to-guest-label {
@@ -2146,12 +2260,24 @@ body {
 }
 
 /* Entry Animations */
-@keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
+@keyframes slideFromCenterToTop {
+    from {
+        opacity: 0;
+        transform: translateY(calc(50vh - 11rem));
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+@keyframes slideFromCenterToBottom {
+    from {
+        opacity: 0;
+        transform: translateY(calc(-50vh + 13rem));
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
