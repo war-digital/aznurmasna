@@ -14,7 +14,7 @@ const WEDDING_CONFIG = {
             father: "Bapak Abd Asis Ngatta/Andu (Almarhum)",
             mother: "Ibu Matang Nasir, S.Pd/Tang (Almarhuma)",
             instagram: "Moh_ennur",
-            photo: "groom.webp"
+            photo: "g1.jpg"
         },
         bride: {
             nickname: "Masna",
@@ -22,7 +22,7 @@ const WEDDING_CONFIG = {
             father: "Bapak Abd Fattah Hs. Hi. Hamson",
             mother: "Ibu Matahari Hj. Dolla",
             instagram: "Masna_abd_fattah",
-            photo: "bride.webp"
+            photo: "g2.jpg"
         }
     },
     events: {
