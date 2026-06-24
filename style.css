@@ -1,0 +1,2156 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Montserrat:wght@300;400;500;600;700&family=Sacramento&family=Great+Vibes&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+/* Custom Local Font: Bugis Lontara */
+@font-face {
+    font-family: 'Lontara';
+    src: url('Lontara.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* =================================================================
+   CSS DESIGN SYSTEM: PREMIUM BUGIS DIGITAL WEDDING INVITATION
+   ================================================================= */
+
+/* 1. RESET & VARIABLES */
+:root {
+    --color-primary: #5C1D24;       /* Deep Bugis Burgundy/Red Silk */
+    --color-primary-light: #7D2D36; /* Lighter Burgundy */
+    --color-gold: #D4AF37;          /* Premium Gold */
+    --color-gold-dark: #B38F1E;     /* Dark Gold for Text Contrast */
+    --color-gold-light: #F3E5AB;    /* Soft Cream-Gold */
+    --color-brown-soft: #8B7355;    /* Soft Brown for Frames */
+    --color-brown-dark: #FFF2C2;    /* Bright Cream-Gold for Titles (was #4A3B2C) */
+    --color-bg-light: #160f0a;      /* Dark Elegant Chocolate (was #FDFBF7) */
+    --color-bg-alt: #22160f;        /* Rich Dark Brown (was #F6F3EC) */
+    --color-text-dark: #FFFDF7;     /* Warm Cream for Readability (was #2C2C2C) */
+    --color-text-muted: #E2D1A6;    /* Soft Gold for Subtitles (was #666666) */
+    --font-serif: 'Playfair Display', 'Cinzel', serif;
+    --font-sans: 'Montserrat', 'Inter', sans-serif;
+    --font-accent: 'Great Vibes', cursive; /* Handwritten Cursive Font */
+    --transition-smooth: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    --shadow-premium: 0 15px 35px rgba(0, 0, 0, 0.08), 0 5px 15px rgba(0, 0, 0, 0.04);
+    --shadow-gold: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    font-family: var(--font-sans);
+    color: var(--color-text-dark);
+    background-color: #160f0a; /* Dark elegant outer background for desktop */
+    overflow-x: hidden;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--color-bg-light);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-gold);
+}
+
+/* Helper utilities */
+.hidden {
+    display: none !important;
+}
+
+.animate-bounce {
+    animation: bounce 2s infinite;
+}
+
+/* =================================================================
+   2. KEYFRAMES & ANIMATIONS
+   ================================================================= */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200px 0; }
+    100% { background-position: 200px 0; }
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+@keyframes spin-slow {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes gold-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
+    70% { box-shadow: 0 0 0 12px rgba(212, 175, 55, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+}
+
+/* =================================================================
+   3. SCREEN COVER (GATE)
+   ================================================================= */
+.cover-screen {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 480px; /* Constrained portrait / Android width */
+    height: 100vh;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3rem 1.5rem;
+    overflow: hidden;
+    transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1), opacity 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.cover-screen.unlocked {
+    transform: translate(-50%, -100vh); /* Account for translate-x centering */
+    opacity: 0;
+    pointer-events: none;
+}
+
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: none; /* Removed transparent dark overlay to show full video */
+    z-index: -1;
+}
+
+/* Header & Footer on Cover */
+.cover-header {
+    text-align: center;
+    z-index: 10;
+}
+
+.sub-title-cover {
+    font-family: var(--font-serif);
+    font-size: 0.9rem;
+    color: var(--color-gold);
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    text-shadow: 0 3px 10px rgba(0,0,0,0.9), 0 1px 3px rgba(0,0,0,0.95); /* Stronger shadow */
+    display: inline-block;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.5);
+    padding-bottom: 8px;
+}
+
+/* Center Content */
+.cover-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    width: 100%;
+    max-width: 400px;
+    margin: auto 0;
+}
+
+/* Typewriter Title style with smooth drawing/carving reveal */
+.typewriter-title {
+    font-family: var(--font-accent);
+    font-size: 4.8rem; /* Enlarged font size for handwriting look */
+    color: var(--color-gold-light);
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9), 0 2px 5px rgba(0, 0, 0, 0.95); /* Stronger shadow for bright videos */
+    margin-bottom: 1.5rem;
+    min-height: 6.8rem; /* Increased height to prevent vertical clipping */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: normal;
+    /* Continuous left-to-right drawing mask */
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 3.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.typewriter-title.reveal-active {
+    clip-path: inset(0 0% 0 0);
+}
+
+/* Soft Brown Oval Frame */
+.oval-frame {
+    border: 2px solid rgba(212, 175, 55, 0.45); /* slightly stronger gold border */
+    border-radius: 50%;
+    width: 200px;
+    height: 290px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(66, 46, 32, 0.75); /* Rich translucent brown, no glass blur */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 
+                inset 0 0 30px rgba(212, 175, 55, 0.2);
+    opacity: 0;
+    transform: scale(0.85);
+    /* Soft, slow transition for a gentle breathing emergence */
+    transition: opacity 3.2s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 3.2s cubic-bezier(0.25, 1, 0.5, 1);
+    position: relative;
+}
+
+.oval-frame.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Decorative elements inside/around oval */
+.oval-pattern-top {
+    width: 40px;
+    height: 2px;
+    background: var(--color-gold);
+    position: absolute;
+    top: 35px;
+}
+.oval-pattern-top::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 18px;
+    width: 4px;
+    height: 4px;
+    background: var(--color-gold);
+    border-radius: 50%;
+}
+
+.oval-pattern-bottom {
+    width: 40px;
+    height: 2px;
+    background: var(--color-gold);
+    position: absolute;
+    bottom: 35px;
+}
+.oval-pattern-bottom::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 18px;
+    width: 4px;
+    height: 4px;
+    background: var(--color-gold);
+    border-radius: 50%;
+}
+
+.dynamic-initials {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+}
+
+.initial-char {
+    font-family: var(--font-serif);
+    font-size: 3.8rem;
+    font-weight: 700;
+    color: #FFF2C2; /* Sangat jelas, krem-emas terang */
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.8), 0 3px 8px rgba(0, 0, 0, 0.95); /* Bayangan emas bersinar & drop shadow tegas */
+    position: absolute;
+    transition: var(--transition-smooth);
+}
+
+.char-a {
+    top: 10px;
+    left: 15px;
+}
+
+.char-m {
+    bottom: 10px;
+    right: 15px;
+}
+
+.initial-amp {
+    font-family: var(--font-accent); /* Menggunakan font tulis tangan Great Vibes */
+    font-size: 3rem;
+    color: var(--color-gold);
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.7), 0 2px 5px rgba(0, 0, 0, 0.95);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 6;
+    transition: var(--transition-smooth);
+}
+
+/* Cover Footer */
+.cover-footer {
+    text-align: center;
+    z-index: 10;
+    width: 100%;
+    max-width: 320px;
+}
+
+.guest-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+}
+
+.guest-name {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    color: #FFFFFF;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    margin-bottom: 1.8rem;
+    font-weight: 600;
+}
+
+/* =================================================================
+   4. SLIDE-TO-UNLOCK BUTTON
+   ================================================================= */
+.slider-container {
+    position: relative;
+    width: 100%;
+    height: 54px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 27px;
+    padding: 3px;
+    display: flex;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    user-select: none;
+    overflow: hidden;
+}
+
+.slider-bg-text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    left: 0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: rgba(255, 255, 255, 0.6);
+    pointer-events: none;
+    z-index: 1;
+    /* Shimmer Effect */
+    background: linear-gradient(to right, 
+                rgba(255, 255, 255, 0.4) 0%, 
+                rgba(255, 255, 255, 1) 50%, 
+                rgba(255, 255, 255, 0.4) 100%);
+    background-size: 200px 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: shimmer 2.5s infinite linear;
+}
+
+.slider-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.35));
+    border-radius: 27px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.slider-handle {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FFF5D1 0%, #D4AF37 100%); /* Gold gradient instead of white */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 
+                inset 0 2px 2px rgba(212, 175, 55, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;
+    z-index: 3;
+    transition: transform 0.1s ease, background 0.3s ease;
+    color: var(--color-primary);
+    font-size: 1.1rem;
+}
+
+.slider-handle:active {
+    cursor: grabbing;
+    background: linear-gradient(135deg, #FFFFFF 0%, #D4AF37 100%);
+}
+
+/* =================================================================
+   5. FLOATING AUDIO CONTROL
+   ================================================================= */
+.audio-control {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 999;
+    transition: opacity 0.5s ease;
+}
+
+@media (min-width: 481px) {
+    .audio-control {
+        right: calc(50% - 240px + 25px); /* Keep inside portrait container on desktop */
+    }
+}
+
+.audio-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    border: 2px solid var(--color-gold);
+    color: var(--color-gold);
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: var(--transition-smooth);
+}
+
+.audio-btn:hover {
+    transform: scale(1.1);
+    background: var(--color-primary-light);
+}
+
+.audio-btn.playing {
+    animation: spin-slow 5s infinite linear, gold-pulse 2s infinite;
+}
+
+/* =================================================================
+   6. MAIN CONTENT & BACKGROUND VIDEO
+   ================================================================= */
+.main-content {
+    width: 100%;
+    max-width: 480px; /* Constrained portrait / Android width */
+    margin: 0 auto;
+    min-height: 100vh;
+    position: relative;
+    background-color: transparent; /* Transparent so fixed video background is visible */
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.main-content.show {
+    opacity: 1;
+}
+
+/* Ambient video background on main content */
+.main-bg-video-container {
+    position: fixed; /* FIXED background behind all sections */
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 480px; /* Stay inside portrait container on desktop */
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.video-background-main {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 1; /* Fully visible, NO transparency */
+    filter: none; /* Clear, no blur */
+}
+
+.main-bg-overlay {
+    display: none; /* Removed transparent overlay */
+}
+
+/* ================= ================= =================
+   7. SECTIONS & CONTAINER
+   ================= ================= ================= */
+.section {
+    padding: 6rem 1.5rem;
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.section-container {
+    width: 100%;
+    max-width: 1000px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Section titles */
+.section-title-container {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-subtitle {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--color-gold); /* Gold color for high readability over video */
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9); /* Strong dark shadow for legibility */
+}
+
+.section-title {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    color: var(--color-brown-dark); /* bright cream-gold */
+    position: relative;
+    display: inline-block;
+    padding-bottom: 15px;
+    font-weight: 700;
+    text-shadow: 0 3px 10px rgba(0, 0, 0, 0.9); /* Strong dark shadow for legibility */
+    /* Carving swipe reveal */
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 2s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 1s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.section-title-container.revealed .section-title {
+    clip-path: inset(0 0 0 0);
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+}
+
+.section-desc {
+    font-size: 0.95rem;
+    color: var(--color-text-muted); /* soft gold */
+    max-width: 600px;
+    margin: 1.5rem auto 0;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.95); /* Strong dark shadow for legibility */
+}
+
+/* ================= HERO SECTION ================= */
+.hero-section {
+    height: 100vh;
+    text-align: center;
+    padding: 0;
+    overflow: hidden;
+}
+
+.hero-section .section-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5rem 1.5rem 2rem 1.5rem; /* Safe padding top and bottom */
+}
+
+.hero-top-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.hero-bottom-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 0;
+}
+
+.hero-bottom-area {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem; /* Gap between countdown and scroll indicator */
+    margin-top: auto; /* Push down to the very bottom */
+}
+
+.greeting-accent {
+    font-family: var(--font-serif);
+    font-size: 0.72rem; /* Mini */
+    color: var(--color-gold-light);
+    text-shadow: 0 2px 8px rgba(0,0,0,0.95);
+    margin-bottom: 1.5rem;
+    letter-spacing: 3.5px; /* Elegant wide spacing */
+    text-transform: uppercase;
+    text-align: center;
+    /* Carving swipe reveal */
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 2s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 1s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.greeting-accent.revealed {
+    clip-path: inset(0 0% 0 0);
+}
+
+.couple-title {
+    font-family: 'Lontara', var(--font-accent); /* Custom Lontara font for couple names */
+    font-size: 2.6rem; /* Adjusted to guarantee single-line fit within 480px width */
+    color: #FFF2C2; /* Premium cream-gold (was white) */
+    font-weight: normal;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9), 0 2px 5px rgba(0, 0, 0, 0.95); /* Stronger shadow */
+    line-height: 1.2;
+    white-space: nowrap; /* Force exactly 1 line */
+    /* Carving swipe reveal */
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 2.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 1s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.couple-title.revealed {
+    clip-path: inset(0 0% 0 0);
+}
+
+.wedding-date-text {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    text-shadow: 0 2px 8px rgba(0,0,0,0.9);
+    font-weight: 600;
+    margin-bottom: 1.5rem; /* Clustered with countdown */
+    /* Carving swipe reveal */
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 2s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 1s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wedding-date-text.revealed {
+    clip-path: inset(0 0% 0 0);
+}
+
+/* Countdown Timer with Rolling Digits */
+.countdown-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.countdown-item {
+    background: rgba(22, 15, 10, 0.55); /* Dark transparent card backdrop */
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 12px;
+    padding: 0.8rem 0.6rem;
+    min-width: 82px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    box-shadow: var(--shadow-premium);
+    transition: var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.countdown-item:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-gold);
+}
+
+.rolling-number {
+    display: flex;
+    gap: 2px;
+    background: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 100%); /* Gold gradient instead of white */
+    border: 1.5px solid var(--color-gold);
+    border-radius: 6px;
+    padding: 2px 6px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Removed white highlights */
+}
+
+.rolling-digit-container {
+    display: inline-block;
+    height: 2.4rem; /* match the height of a single digit */
+    overflow: hidden;
+    position: relative;
+    width: 1.3rem; /* width of a single digit */
+    text-align: center;
+}
+
+.rolling-digit-strip {
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); /* bouncy, mechanical rolling look */
+    height: 24rem; /* 10 times the height of a single digit */
+}
+
+.rolling-digit-strip span {
+    display: block;
+    height: 2.4rem; /* exact height of a single digit */
+    font-family: var(--font-serif);
+    font-size: 1.7rem;
+    font-weight: 700;
+    line-height: 2.4rem;
+    color: var(--color-primary);
+}
+
+.countdown-item .label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.8);
+    display: block;
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 5;
+    margin-top: auto; /* Push down to very bottom */
+}
+
+.scroll-text {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--color-text-muted);
+    margin-bottom: 8px;
+}
+
+.scroll-indicator i {
+    color: var(--color-primary);
+    font-size: 1.2rem;
+}
+
+/* ================= MEMPELAI SECTION ================= */
+.mempelai-section {
+    background-color: transparent; /* Transparent to show fixed video background */
+    border-top: 1px solid rgba(212, 175, 55, 0.15);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.couple-cards-container {
+    display: flex;
+    flex-direction: column; /* Force vertical stacking for perfectly centered, wide cards */
+    align-items: center;
+    gap: 2.5rem; /* Elegant spacing between cards */
+    margin-top: 2rem;
+    width: 100%;
+}
+
+.couple-card {
+    background: rgba(54, 38, 27, 0.85); /* Luxurious translucent dark brown */
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    width: 420px; /* Widened from 320px to 420px for a prominent look */
+    max-width: 100%; /* Responsive sizing for narrower screens */
+    box-shadow: var(--shadow-premium);
+    transition: var(--transition-smooth);
+    border: 1px solid rgba(212, 175, 55, 0.35); /* Gold border instead of white */
+    position: relative; /* Contain the corner ornaments */
+    overflow: hidden; /* Clip ornaments at rounded borders */
+}
+
+.couple-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+}
+
+.couple-img-wrapper {
+    width: 210px;
+    height: 290px;
+    margin: 0 auto 2rem;
+    position: relative;
+    border-radius: 105px 105px 0 0; /* Dome shape for Bugis arch aesthetic (half of 210px) */
+    overflow: hidden;
+    /* Entrance animation: scale up slowly from small to large */
+    opacity: 0;
+    transform: scale(0.5); /* Start small */
+    transition: opacity 2.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 2.5s cubic-bezier(0.16, 1, 0.3, 1); /* Ultra-slow 2.5s scale-up */
+    transition-delay: 1.0s; /* Stage 2: Wait 1.0s for card background to appear */
+}
+
+.couple-card.revealed .couple-img-wrapper {
+    opacity: 1;
+    transform: scale(1); /* Grow to full size */
+}
+
+.couple-img {
+    width: 100%;
+    height: 112%; /* Extra height to allow smooth vertical parallax glide */
+    object-fit: cover;
+    transform: scale(1.05) translateY(-10px); /* Initial state */
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* Smooth liquid scroll transition */
+}
+
+.gold-frame-border {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border: 2px solid var(--color-gold);
+    border-radius: 100px 100px 0 0; /* Dome shape for inner border (half of 200px) */
+    pointer-events: none;
+    opacity: 0.75;
+    z-index: 5; /* Sit on top of photo and ornaments */
+}
+
+/* Card Corner Ornaments */
+.card-ornament {
+    position: absolute;
+    z-index: 2; /* Sit behind the text/button but on top of the card background */
+    pointer-events: none;
+    /* Ultra-smooth, slow-decelerating custom curve for luxurious feel */
+    transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                opacity 2.2s cubic-bezier(0.16, 1, 0.3, 1);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
+    opacity: 0; /* Animate in when card is revealed */
+}
+
+.card-ornament.ornament-bottom-left {
+    bottom: -5px;
+    left: -5px;
+    width: 150px;
+    height: auto;
+    /* Spiral unfolding start: scaled down, rotated, and shifted */
+    transform: scale(0.7) rotate(12deg) translate(-15px, 15px);
+    transition-delay: 3.5s; /* Stage 4: Fade in last, after the text has settled! */
+}
+
+.card-ornament.ornament-bottom-right {
+    bottom: -5px;
+    right: -5px;
+    width: 150px;
+    height: auto;
+    /* Spiral unfolding start: scaled down, rotated, and shifted */
+    transform: scale(0.7) rotate(-12deg) translate(15px, 15px);
+    transition-delay: 3.5s; /* Stage 4: Fade in last, after the text has settled! */
+}
+
+.couple-card.revealed .card-ornament {
+    opacity: 0.9; /* Beautiful high-contrast gold filigree */
+}
+
+.couple-card.revealed .card-ornament.ornament-bottom-left {
+    transform: scale(1) rotate(0deg) translate(0, 0);
+}
+
+.couple-card.revealed .card-ornament.ornament-bottom-right {
+    transform: scale(1) rotate(0deg) translate(0, 0);
+}
+
+/* Interactive hover micro-animations for card ornaments */
+.couple-card:hover .card-ornament.ornament-bottom-left {
+    transform: scale(1.06) rotate(-2deg) translate(-2px, 2px);
+    opacity: 1;
+}
+
+.couple-card:hover .card-ornament.ornament-bottom-right {
+    transform: scale(1.06) rotate(2deg) translate(2px, 2px);
+    opacity: 1;
+}
+
+.couple-name {
+    font-family: 'Lontara', var(--font-serif); /* Custom Lontara font for couple names */
+    font-size: 1.6rem;
+    color: var(--color-brown-dark);
+    margin-bottom: 0.8rem;
+    font-weight: 700;
+}
+
+.couple-parent {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.4rem;
+}
+
+.parent-names {
+    font-family: var(--font-serif);
+    font-size: 0.95rem;
+    color: var(--color-text-dark);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.couple-details {
+    margin-top: 1.5rem;
+    opacity: 0;
+    transform: translateY(40px); /* Entrance animation: slide up from bottom of card */
+    transition: opacity 2.5s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 2.5s cubic-bezier(0.25, 1, 0.5, 1); /* Ultra-slow 2.5s slide */
+    transition-delay: 2.5s; /* Stage 3: Wait 2.5s for photo to slide down and settle */
+    position: relative;
+    z-index: 10; /* Ensure text and buttons sit on top of the corner ornaments */
+}
+
+.couple-card.revealed .couple-details {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-gold-dark);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: var(--transition-smooth);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    padding: 6px 16px;
+    border-radius: 20px;
+}
+
+.social-link:hover {
+    background: var(--color-gold);
+    color: #FFFFFF;
+    border-color: var(--color-gold);
+}
+
+/* Splitter */
+.couple-splitter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ampersand {
+    font-family: var(--font-accent);
+    font-size: 4rem;
+    color: var(--color-gold-dark);
+    line-height: 1;
+}
+
+.bugis-line {
+    width: 2px;
+    height: 80px;
+    background: linear-gradient(to bottom, var(--color-gold), transparent);
+    margin-top: 10px;
+}
+
+/* Quote Box */
+.bugis-quote-box {
+    margin-top: 5rem;
+    background: rgba(54, 38, 27, 0.8); /* Luxurious dark brown instead of white */
+    border-left: 4px solid var(--color-gold);
+    padding: 2.5rem;
+    border-radius: 0 16px 16px 0;
+    box-shadow: var(--shadow-premium);
+    text-align: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.bugis-quote {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--color-gold-light); /* Cream-gold instead of burgundy for readability on dark card */
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.bugis-quote-translation {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+}
+
+.quote-signature {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--color-gold-dark);
+    display: block;
+    margin-top: 1rem;
+    font-weight: 600;
+}
+
+/* ================= ACARA SECTION ================= */
+.acara-section {
+    background-color: transparent; /* Transparent to show fixed video background */
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.events-grid {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+.event-card {
+    background: rgba(54, 38, 27, 0.85); /* Luxurious translucent dark brown */
+    border-radius: 20px;
+    padding: 3rem 2.5rem;
+    width: 440px;
+    max-width: 100%;
+    box-shadow: var(--shadow-premium);
+    transition: var(--transition-smooth);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-top: 4px solid var(--color-gold);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* Event Card Shapes */
+.event-card.shape-dome-top {
+    border-radius: 220px 220px 20px 20px;
+    border-top: 1px solid rgba(212, 175, 55, 0.35); /* Keep the dome curve clean */
+    overflow: hidden;
+}
+
+.event-card.shape-rect {
+    border-radius: 20px;
+    border-top: 1px solid rgba(212, 175, 55, 0.35); /* Consistent thin gold border */
+    overflow: hidden;
+}
+
+.event-card.shape-dome-bottom {
+    border-radius: 20px 20px 220px 220px;
+    border-top: 1px solid rgba(212, 175, 55, 0.35); /* Keep the bottom dome curve clean */
+    overflow: hidden;
+}
+
+/* Event Card Corner Ornaments */
+.event-ornament {
+    position: absolute;
+    z-index: 1; /* Sit behind content but on top of card background */
+    width: 150px; /* Enlarged to match the couple card ornaments */
+    height: auto;
+    pointer-events: none;
+    opacity: 0; /* Animate in when card is revealed */
+    /* Ultra-smooth, slow-decelerating custom curve for luxurious feel */
+    transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                opacity 2.2s cubic-bezier(0.16, 1, 0.3, 1);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
+}
+
+.event-card.revealed .event-ornament {
+    opacity: 0.7; /* Softened slightly for readability of small text, while keeping it prominent */
+}
+
+/* Base positioning & transitions per corner (snug at 0px offset with spiral unfolding start) */
+.event-ornament.ornament-top-left {
+    top: 0;
+    left: 0;
+    /* Vertically flipped & rotated top-left start */
+    transform: scale(0.7) scaleY(-1) rotate(-12deg) translate(-15px, -15px);
+    transition-delay: 1.0s; /* Align with reveal stage */
+}
+
+.event-ornament.ornament-top-right {
+    top: 0;
+    right: 0;
+    /* Vertically flipped & rotated top-right start */
+    transform: scale(0.7) scaleY(-1) rotate(12deg) translate(15px, -15px);
+    transition-delay: 1.0s;
+}
+
+.event-ornament.ornament-bottom-left {
+    bottom: 0;
+    left: 0;
+    /* Natural state & rotated bottom-left start */
+    transform: scale(0.7) rotate(12deg) translate(-15px, 15px);
+    transition-delay: 1.0s;
+}
+
+.event-ornament.ornament-bottom-right {
+    bottom: 0;
+    right: 0;
+    /* Natural state & rotated bottom-right start */
+    transform: scale(0.7) rotate(-12deg) translate(15px, 15px);
+    transition-delay: 1.0s;
+}
+
+/* Revealed states */
+.event-card.revealed .event-ornament.ornament-top-left {
+    transform: scale(1) scaleY(-1) rotate(0deg) translate(0, 0);
+}
+
+.event-card.revealed .event-ornament.ornament-top-right {
+    transform: scale(1) scaleY(-1) rotate(0deg) translate(0, 0);
+}
+
+.event-card.revealed .event-ornament.ornament-bottom-left {
+    transform: scale(1) rotate(0deg) translate(0, 0);
+}
+
+.event-card.revealed .event-ornament.ornament-bottom-right {
+    transform: scale(1) rotate(0deg) translate(0, 0);
+}
+
+/* Interactive hover micro-animations (matching couple cards) */
+.event-card:hover .event-ornament.ornament-top-left {
+    transform: scale(1.05) scaleY(-1) rotate(-2deg) translate(-2px, -2px);
+    opacity: 0.9;
+}
+
+.event-card:hover .event-ornament.ornament-top-right {
+    transform: scale(1.05) scaleY(-1) rotate(2deg) translate(2px, -2px);
+    opacity: 0.9;
+}
+
+.event-card:hover .event-ornament.ornament-bottom-left {
+    transform: scale(1.05) rotate(-2deg) translate(-2px, 2px);
+    opacity: 0.9;
+}
+
+.event-card:hover .event-ornament.ornament-bottom-right {
+    transform: scale(1.05) rotate(2deg) translate(2px, 2px);
+    opacity: 0.9;
+}
+
+.event-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+}
+
+.event-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(42, 27, 18, 0.6); /* Dark brown instead of white */
+    color: var(--color-gold); /* Gold */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+}
+
+.event-title {
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    color: var(--color-brown-dark);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.event-divider {
+    width: 50px;
+    height: 2px;
+    background: var(--color-gold);
+    margin-bottom: 2rem;
+}
+
+.event-details-list {
+    width: 100%;
+    margin-bottom: 2.5rem;
+}
+
+.event-detail-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.event-detail-item i {
+    color: var(--color-gold); /* Gold instead of burgundy for contrast on dark card */
+    font-size: 1.1rem;
+    margin-top: 3px;
+    width: 20px;
+    text-align: center;
+}
+
+.event-detail-item span {
+    color: var(--color-text-dark);
+}
+
+.event-actions {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    margin-top: auto;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.8rem 1.8rem;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    width: 50%;
+    text-align: center;
+}
+
+.btn-block {
+    width: 100% !important;
+}
+
+.btn-gold {
+    background: var(--color-primary);
+    color: #FFFFFF;
+    border: 1px solid var(--color-primary);
+}
+
+.btn-gold:hover {
+    background: var(--color-gold);
+    border-color: var(--color-gold);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+}
+
+.btn-outline:hover {
+    background: var(--color-primary);
+    color: #FFFFFF;
+    transform: translateY(-2px);
+}
+
+.btn-sm {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.8rem;
+}
+
+/* ================= GALLERY SECTION ================= */
+.galeri-section {
+    background-color: transparent; /* Transparent to show fixed video background */
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for a tight, elegant portrait layout */
+    grid-auto-rows: 150px; /* Base row height for dynamic mosaic scaling */
+    grid-auto-flow: dense; /* Automatically pack items to prevent gaps or empty slots */
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.gallery-item {
+    position: relative;
+    /* Aspect-ratio removed to allow dynamic height spans */
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: var(--shadow-premium);
+    border: 1px solid rgba(212, 175, 55, 0.35); /* Elegant thin gold border */
+    transition: var(--transition-smooth);
+    background: #1c150f; /* Fallback dark background */
+}
+
+/* Mosaic spans for dynamic collage layout */
+.gallery-item.span-v {
+    grid-row: span 2; /* Vertical portrait format */
+}
+
+.gallery-item.span-h {
+    grid-column: span 2; /* Horizontal landscape format */
+}
+
+.gallery-item.span-lg {
+    grid-column: span 2;
+    grid-row: span 2; /* Large featured square format */
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-smooth);
+}
+
+.gallery-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(92, 29, 36, 0.7); /* Translucent burgundy overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: var(--transition-smooth);
+    color: var(--color-gold-light);
+    font-size: 1.8rem;
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-gold);
+    box-shadow: 0 15px 30px rgba(212, 175, 55, 0.2);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.06);
+}
+
+.gallery-item:hover .gallery-overlay {
+    opacity: 1;
+}
+
+/* ================= RSVP & GUESTBOOK SECTION ================= */
+.ucapan-section {
+    background-color: transparent; /* Transparent to show fixed video background */
+    border-top: 1px solid rgba(212, 175, 55, 0.15);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.guestbook-grid {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+.rsvp-form-container, .guestbook-list-container {
+    flex: 1;
+    min-width: 340px;
+    background: rgba(54, 38, 27, 0.85); /* Luxurious translucent dark brown */
+    border-radius: 20px;
+    padding: 3rem 2.5rem;
+    box-shadow: var(--shadow-premium);
+    border: 1px solid rgba(212, 175, 55, 0.3); /* Gold border instead of white */
+}
+
+.form-title {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    color: var(--color-brown-dark);
+    margin-bottom: 2rem;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.form-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: var(--color-gold);
+}
+
+.rsvp-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.rsvp-form label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-dark);
+    margin-bottom: 8px;
+}
+
+.rsvp-form label i {
+    color: var(--color-primary);
+    margin-right: 5px;
+}
+
+.rsvp-form input, 
+.rsvp-form select, 
+.rsvp-form textarea {
+    width: 100%;
+    padding: 0.8rem 1.2rem;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 10px;
+    background: rgba(22, 15, 10, 0.6); /* Dark brown background instead of white */
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: var(--color-text-dark);
+    outline: none;
+    transition: var(--transition-smooth);
+}
+
+.rsvp-form input::placeholder,
+.rsvp-form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.rsvp-form input:focus, 
+.rsvp-form select:focus, 
+.rsvp-form textarea:focus {
+    border-color: var(--color-gold);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+    background: rgba(22, 15, 10, 0.85);
+}
+
+/* Comments Scroll Area */
+.comments-scroll-area {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.comment-item {
+    background: var(--color-bg-alt);
+    border-radius: 12px;
+    padding: 1.2rem;
+    margin-bottom: 1.2rem;
+    border-left: 3px solid var(--color-gold);
+    animation: fadeIn 0.5s ease;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.comment-author {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--color-brown-dark);
+}
+
+.badge {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-hadir {
+    background-color: rgba(46, 117, 89, 0.15);
+    color: #1e523c;
+}
+
+.status-ragu {
+    background-color: rgba(212, 175, 55, 0.15);
+    color: #8c6e0d;
+}
+
+.status-tidak {
+    background-color: rgba(92, 29, 36, 0.15);
+    color: var(--color-primary);
+}
+
+.comment-text {
+    font-size: 0.88rem;
+    color: var(--color-text-dark);
+    line-height: 1.5;
+}
+
+.comment-time {
+    display: block;
+    text-align: right;
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    margin-top: 8px;
+}
+
+/* ================= GIFT SECTION ================= */
+.hadiah-section {
+    background-color: transparent; /* Transparent to show fixed video background */
+}
+
+.gifts-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 3rem;
+}
+
+.gift-card {
+    background: rgba(54, 38, 27, 0.85); /* Luxurious translucent dark brown */
+    border: 1px solid rgba(212, 175, 55, 0.35); /* Gold border instead of white */
+    border-radius: 20px;
+    width: 340px;
+    box-shadow: var(--shadow-premium);
+    overflow: hidden;
+    text-align: center;
+    transition: var(--transition-smooth);
+}
+
+.gift-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--color-gold);
+    box-shadow: 0 20px 40px rgba(212, 175, 55, 0.1);
+}
+
+.bank-logo-wrapper {
+    background: var(--color-bg-alt);
+    padding: 2rem 1.5rem;
+    border-bottom: 1px dashed rgba(212, 175, 55, 0.25);
+}
+
+.bank-name {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--color-gold); /* High contrast premium gold instead of dark burgundy */
+    letter-spacing: 2px;
+}
+
+.gift-details {
+    padding: 2rem 1.5rem;
+}
+
+.account-number {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-brown-dark);
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+}
+
+.account-holder {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.gift-card .btn-copy {
+    width: auto;
+}
+
+/* ================= FOOTER ================= */
+.wedding-footer {
+    background: linear-gradient(to bottom, #4A3525 0%, var(--color-bg-light) 100%); /* Soft brown gradient instead of bright yellow/gold */
+    color: #FFFFFF;
+    padding: 6rem 1.5rem 3rem;
+    text-align: center;
+    position: relative;
+    border-top: 3px solid var(--color-gold);
+}
+
+.footer-logo {
+    font-family: var(--font-serif);
+    font-size: 3rem;
+    color: var(--color-gold-light);
+    margin-bottom: 2rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.footer-text {
+    max-width: 600px;
+    margin: 0 auto 2.5rem;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.8;
+}
+
+.footer-closing {
+    font-family: var(--font-accent);
+    font-size: 2.2rem;
+    color: var(--color-gold);
+    margin-bottom: 1rem;
+}
+
+.footer-names {
+    font-family: 'Lontara', var(--font-serif); /* Custom Lontara font for couple names */
+    font-size: 2.2rem;
+    color: #FFFFFF;
+    margin-bottom: 0.4rem;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.footer-family {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 3rem;
+}
+
+.bugis-ornament-footer {
+    width: 100px;
+    height: 2px;
+    background: var(--color-gold);
+    margin: 0 auto 3rem;
+    position: relative;
+}
+.bugis-ornament-footer::after {
+    content: '◆';
+    color: var(--color-gold);
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #34241a; /* Soft brown background to blend seamlessly with the gradient at this height */
+    padding: 0 10px;
+}
+
+.copyright {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 1px;
+}
+
+.developer-credit {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 15px;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+}
+
+.developer-credit a.dev-link {
+    color: var(--color-gold-light);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition-smooth);
+}
+
+.developer-credit a.dev-link:hover {
+    color: var(--color-gold);
+}
+
+.dev-highlight {
+    color: var(--color-gold);
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* =================================================================
+   8. LIGHTBOX MODAL FOR GALLERY
+   ================================================================= */
+.lightbox-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    justify-content: center;
+    align-items: center;
+}
+
+.lightbox-modal.show {
+    display: flex;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #FFFFFF;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    z-index: 10010;
+}
+
+.lightbox-close:hover {
+    color: var(--color-gold);
+    transform: scale(1.1);
+}
+
+.lightbox-content-wrapper {
+    position: relative;
+    max-width: 85%;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.lightbox-img {
+    max-width: 100%;
+    max-height: 75vh;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    animation: zoomIn 0.4s ease;
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.lightbox-caption {
+    color: #FFFFFF;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+    border: none;
+    font-size: 30px;
+    padding: 15px 20px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: var(--transition-smooth);
+    z-index: 10005;
+}
+
+.lightbox-nav:hover {
+    background: var(--color-primary);
+    color: var(--color-gold);
+}
+
+.lightbox-prev {
+    left: 40px;
+}
+
+.lightbox-next {
+    right: 40px;
+}
+
+/* Toast Message */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translate(-50%, 100px);
+    background: rgba(92, 29, 36, 0.95);
+    border: 1px solid var(--color-gold);
+    color: #FFFFFF;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: var(--shadow-premium);
+    z-index: 10000;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none;
+    width: calc(100% - 60px);
+    max-width: 420px; /* Constrain inside portrait container */
+    text-align: center;
+}
+
+.toast.show {
+    transform: translate(-50%, 0);
+}
+
+/* =================================================================
+   9. SCROLL REVEAL ANIMATIONS
+   ================================================================= */
+.scroll-reveal {
+    opacity: 0;
+    /* Soft slide up combined with a premium scale-up */
+    transform: scale(0.9) translateY(25px);
+    transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-reveal-left {
+    opacity: 0;
+    /* Soft slide right combined with a premium scale-up */
+    transform: scale(0.9) translateX(-35px);
+    transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-reveal-right {
+    opacity: 0;
+    /* Soft slide left combined with a premium scale-up */
+    transform: scale(0.9) translateX(35px);
+    transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-reveal-fade {
+    opacity: 0;
+    /* Pure, ultra-slow elegant scale-up zoom-in */
+    transform: scale(0.85);
+    transition: opacity 1.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                transform 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-reveal.revealed,
+.scroll-reveal-left.revealed,
+.scroll-reveal-right.revealed,
+.scroll-reveal-fade.revealed,
+.revealed {
+    opacity: 1;
+    transform: scale(1) translate(0);
+}
+
+/* Delay modifiers */
+.delay-1 { transition-delay: 0.2s; }
+.delay-2 { transition-delay: 0.4s; }
+.delay-3 { transition-delay: 0.6s; }
+
+/* =================================================================
+   10. MEDIA QUERIES (MOBILE RESPONSIVE FIRST)
+   ================================================================= */
+
+@media (max-width: 768px) {
+    .typewriter-title {
+        font-size: 3.8rem; /* Enlarged mobile size */
+        min-height: 5.8rem; /* Increased height */
+    }
+    
+    .oval-frame {
+        width: 170px;
+        height: 250px;
+    }
+    
+    .oval-frame .initials {
+        font-size: 2.4rem;
+    }
+
+    .couple-title {
+        font-size: clamp(1.5rem, 7vw, 2.2rem) !important; /* Scale dynamically to NEVER overflow */
+        letter-spacing: 0.5px;
+    }
+
+    .wedding-date-text {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .countdown-container {
+        gap: 0.6rem;
+    }
+
+    .countdown-item {
+        min-width: 65px;
+        padding: 0.6rem;
+    }
+
+    .countdown-item .number {
+        font-size: 1.6rem;
+    }
+
+    .countdown-item .label {
+        font-size: 0.65rem;
+    }
+
+    .section {
+        padding: 4rem 1rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .couple-cards-container {
+        gap: 2rem;
+    }
+
+    .couple-card {
+        width: 100%;
+        padding: 2rem 1.2rem;
+    }
+
+    .couple-splitter {
+        transform: rotate(90deg);
+        margin: 1rem 0;
+    }
+
+    .bugis-line {
+        height: 40px;
+    }
+
+    .events-grid {
+        gap: 1.5rem;
+    }
+
+    .event-card {
+        width: 100%;
+        padding: 2rem 1.5rem;
+    }
+
+    .event-actions {
+        flex-direction: column;
+        gap: 0.6rem;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .guestbook-grid {
+        gap: 1.5rem;
+    }
+
+    .rsvp-form-container, .guestbook-list-container {
+        min-width: 100%;
+        padding: 2rem 1.5rem;
+    }
+
+    .gifts-container {
+        gap: 1.2rem;
+    }
+
+    .gift-card {
+        width: 100%;
+    }
+
+    .lightbox-nav {
+        display: none; /* hide arrow keys on mobile, swipe or close is preferred */
+    }
+
+    .lightbox-content-wrapper {
+        max-width: 95%;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .events-grid, .couple-cards-container {
+        gap: 2rem;
+    }
+    .event-card, .couple-card {
+        width: calc(50% - 1rem);
+    }
+}
+
+/* =================================================================
+   11. COVER SCREEN 2 (SLIDESHOW & OPEN GATE)
+   ================================================================= */
+.cover-screen-2 {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 480px;
+    height: 100vh;
+    z-index: 9998; /* Just under Cover 1 (9999) */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5rem 2rem;
+    overflow: hidden;
+    transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1), opacity 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+    background-color: #160f0a;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.cover-screen-2.unlocked {
+    transform: translate(-50%, -100vh);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Slideshow Container & Slides */
+.slideshow-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1.8s ease-in-out;
+}
+
+.slide.active {
+    opacity: 1;
+}
+
+.slideshow-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* 100% transparent at top/middle for clear images, fading to a rich warm translucent brown at the bottom for luxury & readability */
+    background: linear-gradient(to bottom, 
+                rgba(22, 15, 10, 0) 0%, 
+                rgba(22, 15, 10, 0) 45%, 
+                rgba(54, 38, 27, 0.5) 75%, 
+                rgba(35, 24, 17, 0.92) 100%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Elegant & Mini Typography for Cover 2 */
+.cover2-header {
+    text-align: center;
+    z-index: 10;
+    animation: fadeInDown 1.5s ease;
+}
+
+.the-wedding-of {
+    font-family: var(--font-serif);
+    font-size: 0.7rem; /* Mini */
+    color: var(--color-gold);
+    letter-spacing: 6px; /* Elegant wide spacing */
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.8rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.couple-names-cover2 {
+    font-family: 'Lontara', var(--font-serif); /* Custom Lontara font for couple names */
+    font-size: 2.2rem; /* Compact and elegant */
+    font-weight: 500;
+    color: #FFFFFF;
+    letter-spacing: 2px;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9), 0 2px 5px rgba(0, 0, 0, 0.95);
+    line-height: 1.3;
+}
+
+.cover2-footer {
+    text-align: center;
+    z-index: 10;
+    width: 100%;
+    max-width: 320px;
+    animation: fadeInUp 1.5s ease;
+}
+
+.to-guest-label {
+    font-size: 0.6rem; /* Mini */
+    color: rgba(255, 255, 255, 0.75);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.guest-name-cover2 {
+    font-family: var(--font-serif);
+    font-size: 1.25rem; /* Elegant, modest size */
+    color: #FFF2C2; /* Bright cream-gold */
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.5), 0 2px 5px rgba(0, 0, 0, 0.9);
+    margin-bottom: 1.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* Button Buka Undangan */
+.btn-open-inv {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 100%);
+    color: #FFFFFF;
+    border: 1px solid var(--color-gold);
+    border-radius: 25px;
+    padding: 10px 28px;
+    font-size: 0.7rem; /* Mini */
+    font-weight: 600;
+    letter-spacing: 3px; /* Elegant wide spacing */
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 
+                0 0 15px rgba(212, 175, 55, 0.2);
+    transition: var(--transition-smooth);
+    animation: gold-pulse 2s infinite;
+}
+
+.btn-open-inv:hover {
+    transform: translateY(-3px) scale(1.03);
+    border-color: #FFFFFF;
+    box-shadow: 0 12px 25px rgba(212, 175, 55, 0.3), 
+                0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.btn-open-inv:active {
+    transform: translateY(-1px) scale(1);
+}
+
+/* Entry Animations */
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
