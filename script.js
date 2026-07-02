@@ -82,7 +82,8 @@ const WEDDING_CONFIG = {
         { src: "g10.jpg", caption: "Senyum Manis Pengantin" },
         { src: "g11.jpg", caption: "Melangkah Menuju Masa Depan" },
         { src: "g12.jpg", caption: "Terima Kasih Atas Doa Restu Anda" }
-    ]
+    ],
+    googleSheetUrl: "https://script.google.com/macros/s/AKfycbx5d-bt4F94GRRuys5XvEIz165clRYvz9AQwu4mvZ4Hqc_g8YgTPk9fCfmrkED2IF1h/exec" // Ganti dengan URL Web App Google Apps Script Anda jika ingin menyimpan ucapan ke Google Sheets
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -502,7 +503,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const rsvpForm = document.getElementById("rsvp-form");
         const commentsList = document.getElementById("comments-list");
         
-        // Load existing wishes from localStorage or set default
+        // Default mock wishes in case fetch fails or is not set up yet
         let wishes = JSON.parse(localStorage.getItem("wedding_wishes")) || [
             {
                 name: "Daeng Malewa",
@@ -567,6 +568,27 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         };
 
+        // Fetch wishes from Google Sheets if configured
+        const loadWishesFromGoogleSheets = () => {
+            if (!WEDDING_CONFIG.googleSheetUrl) {
+                renderComments();
+                return;
+            }
+
+            fetch(WEDDING_CONFIG.googleSheetUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (Array.isArray(data)) {
+                        wishes = data;
+                        renderComments();
+                    }
+                })
+                .catch(err => {
+                    console.error("Gagal memuat ucapan dari Google Sheets:", err);
+                    renderComments();
+                });
+        };
+
         // Form Submission
         rsvpForm.addEventListener("submit", (e) => {
             e.preventDefault();
@@ -584,22 +606,57 @@ document.addEventListener("DOMContentLoaded", () => {
                 time: "Baru saja"
             };
 
-            // Add to wishes array & save
-            wishes.push(newWish);
-            localStorage.setItem("wedding_wishes", JSON.stringify(wishes));
-            
-            // Re-render comments with a sweet typing sound or visual feedback
-            renderComments();
-            
-            // Reset form fields
-            rsvpForm.reset();
-            
-            // Show toast notification
-            showToast("Ucapan & RSVP berhasil dikirim!");
+            if (WEDDING_CONFIG.googleSheetUrl) {
+                // Submit to Google Sheets
+                const submitBtn = rsvpForm.querySelector("button[type='submit']");
+                const originalBtnHTML = submitBtn.innerHTML;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
+
+                const params = new URLSearchParams();
+                params.append("name", nameInput);
+                params.append("status", statusSelect);
+                params.append("message", messageInput);
+
+                fetch(WEDDING_CONFIG.googleSheetUrl, {
+                    method: "POST",
+                    mode: "no-cors",
+                    body: params,
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    }
+                })
+                .then(() => {
+                    showToast("Ucapan & RSVP berhasil dikirim!");
+                    rsvpForm.reset();
+                    // Give it a tiny delay for spreadsheet sync before reloading
+                    setTimeout(loadWishesFromGoogleSheets, 1500);
+                })
+                .catch(err => {
+                    console.error("Gagal mengirim ke Google Sheets:", err);
+                    // Fallback to local storage on error
+                    wishes.push(newWish);
+                    localStorage.setItem("wedding_wishes", JSON.stringify(wishes));
+                    renderComments();
+                    showToast("Ucapan terkirim (Penyimpanan Lokal)!");
+                    rsvpForm.reset();
+                })
+                .finally(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnHTML;
+                });
+            } else {
+                // Fallback to local storage if not configured
+                wishes.push(newWish);
+                localStorage.setItem("wedding_wishes", JSON.stringify(wishes));
+                renderComments();
+                rsvpForm.reset();
+                showToast("Ucapan & RSVP berhasil dikirim!");
+            }
         });
 
-        // Initial render
-        renderComments();
+        // Initial load
+        loadWishesFromGoogleSheets();
     };
     initGuestbook();
 
